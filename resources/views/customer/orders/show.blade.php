@@ -1,7 +1,7 @@
 @extends('customer.layouts.layout')
 
 @section('title_customer')
-WebAge - Order Details
+    ConnectingNotes
 @endsection
 
 @section('customer_layout')
@@ -26,7 +26,7 @@ WebAge - Order Details
     <div class="mb-6 flex flex-col bg-black border border-gray-200 shadow-2xs rounded-xl dark:bg-neutral-900 dark:border-neutral-700 dark:shadow-neutral-700/70">
         <img class="w-full h-auto rounded-t-xl" src="{{ asset('storage/' . $item->product->images->first()->img_path) }}" alt="Product Image">
         <div class="p-4 md:p-5">
-            <center><h3 class="text-lg font-bold text-gray-800 dark:text-white">Product</h3></center>
+            <center><h3 class="text-lg font-bold text-gray-800 dark:text-white">Course/Services</h3></center>
             <center><p class="text-white">{{ $item->product->product_name }} - ₱ {{ number_format($item->price, 2) }} x {{ $item->quantity }}</p></center>
         </div>
     </div>
@@ -45,7 +45,7 @@ WebAge - Order Details
 
         <center> 
             <h3 class="text-black text-lg font-bold text-gray-800 dark:text-white">
-                Shipping Status: 
+                Membership Status: 
                 <span class="order-status bg-white" data-status="{{$order->shipment_status}}">
                     <span class="status-icon"></span>
                     <span class="status-text">{{ $order->shipment_status }}</span>
@@ -66,7 +66,7 @@ WebAge - Order Details
             @elseif($order->status == 'processing')
             <center>
                 <a href="{{ route('orders.showorder', $order) }}" class="bg-green-500 text-white px-6 py-3 rounded-md hover:bg-black focus:outline-none focus:ring-2 focus:ring-yellow-300">
-                    Shipping Details
+                    Membership Details
                 </a>
             </center>
             @endif
@@ -135,3 +135,21 @@ WebAge - Order Details
         });
     });
 </script>
+
+<style>
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fade-in-up {
+    animation: fadeIn 1s ease-out forwards;
+  }
+</style>

@@ -1,7 +1,7 @@
 @extends('seller.layouts.layout')
 
 @section('title_seller')
-WebAge - My Orders
+    ConnectingNotes
 @endsection
 
 @section('seller_layout')
@@ -61,7 +61,7 @@ WebAge - My Orders
           </h3>
   
           <h3 class="text-white bg-black text-lg font-bold text-gray-800 dark:text-white">
-              Sub Total: ₱ {{number_format($order->total_amount,2)}}
+              Sub Total: ₱ {{number_format($order->total_amount, 2)}}
           </h3>
       
           <div class="mt-2 w-full">
@@ -167,5 +167,23 @@ WebAge - My Orders
         });
     });
 </script>
+
+<style>
+    @keyframes fadeIn {
+        0% {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        100% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .animate-fade-in-up {
+        animation: fadeIn 1s ease-out forwards;
+    }
+</style>
 
 

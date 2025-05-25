@@ -32,7 +32,7 @@ class SellerStoreController extends Controller {
             'user_id'=>Auth::user()->id,
         ]);
 
-        return redirect()->back()->with('success', 'Store Created Successfully!');
+        return redirect()->back()->with('success', 'Mentor Created Successfully!');
     }
 
     public function editstore(Request $request, $id){
@@ -49,13 +49,13 @@ class SellerStoreController extends Controller {
         ]);
 
         $Store->update($validate_data);
-        return redirect()->back()->with('success','Store Updated Successfully!');
+        return redirect()->back()->with('success','Mentor Updated Successfully!');
     }
 
     public function deletestore($id){
         Store::findOrFail($id)->delete();
 
-        return redirect()->back()->with('success','Store Deleted Successfully!');
+        return redirect()->back()->with('success','Mentor Deleted Successfully!');
     }
 
 }

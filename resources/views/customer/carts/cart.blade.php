@@ -1,10 +1,10 @@
 @extends('customer.layouts.layout')
 
 @section('title_customer')
-WebAge - My Cart
+ConnectionNotes - My Cart
 @endsection
 
-@section('customer_layout') 
+@section('shop') 
 <center><h1 class="text-white animate-fade-in-up">My Cart</h1></center>
 <hr class="my-4 border-green-500 animate-fade-in-up">
   <!-- Back Button -->
@@ -64,7 +64,7 @@ WebAge - My Cart
             <!-- Quantity Buttons -->
             <div class="flex items-center mt-4 space-x-2 w-full">
                 <!-- Decrease -->
-                <form action="{{ route('cart.decrease', $item->id) }}" method="POST" class="flex-1">
+                <form action="{{ route('cart.decrease', $item->id) }}" method="POST" class="cart-decrease-form" data-id="{{ $item->id }}">
                     @csrf
                     <button type="submit" class="w-full text-black bg-gray-200 px-4 py-2 rounded-md font-medium hover:bg-gray-300">
                         <span class="font-semibold text-lg">-</span>
@@ -72,7 +72,7 @@ WebAge - My Cart
                 </form>
 
                 <!-- Increase -->
-                <form action="{{ route('cart.increase', $item->id) }}" method="POST" class="flex-1">
+                <form action="{{ route('cart.increase', $item->id) }}" method="POST" class="cart-increase-form" data-id="{{ $item->id }}">
                     @csrf
                     <button type="submit" class="w-full text-black bg-gray-200 px-4 py-2 rounded-md font-medium hover:bg-gray-300">
                         <span class="font-semibold text-lg">+</span>
@@ -143,9 +143,10 @@ WebAge - My Cart
         </form>
     </div>
 
+
 </div>
 @endsection
-
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <style>
 @keyframes fadeIn {
     0% {

@@ -1,6 +1,6 @@
 @extends('admin.layouts.layout')
 @section('title_admin')
-Settings - Admin Panel
+    ConnectingNotes | Admin
 @endsection
 @section('admin_layout')
 <center><h1>Home Page Setting</h1></center>
@@ -15,8 +15,8 @@ Settings - Admin Panel
                                 <label for="discounted_product_id" class="fw-bold mb-2">Select Discounted Product</label>
                                 <select name="discounted_product_id" id="discounted_product_id" class="form-control mb-2">
                                     @foreach ($products as $product)
-                                    <option value="{{$product->id}}"{{$homepagesetting->discounted_product_id == $product->id?
-                                        'selected':''}}>{{$product->product_name}}</option>
+                                    <option value="{{$product->id}}"{{$homepagesetting->discounted_product_id == $product->id ?
+        'selected' : ''}}>{{$product->product_name}}</option>
                                     @endforeach
                                 </select>
 
@@ -32,16 +32,16 @@ Settings - Admin Panel
                                 <label for="featured_product_1_id" class="fw-bold mb-2">Select Featured Product 1</label>
                                 <select name="featured_product_1_id" id="featured_product_1_id" class="form-control my-2">
                                     @foreach ($products as $product)
-                                    <option value="{{$product->id}}" {{$homepagesetting->featured_product_1_id == $product->id?
-                                        'selected':''}}>{{$product->product_name}}</option>
+                                    <option value="{{$product->id}}" {{$homepagesetting->featured_product_1_id == $product->id ?
+        'selected' : ''}}>{{$product->product_name}}</option>
                                     @endforeach
                                 </select>
 
                                 <label for="featured_product_2_id" class="fw-bold mb-2">Select Featured Product 2</label>
                                 <select name="featured_product_2_id" id="featured_product_2_id" class="form-control my-2">
                                     @foreach ($products as $product)
-                                    <option value="{{$product->id}}" {{$homepagesetting->featured_product_2_id == $product->id?
-                                        'selected':''}}>{{$product->product_name}}</option>
+                                    <option value="{{$product->id}}" {{$homepagesetting->featured_product_2_id == $product->id ?
+        'selected' : ''}}>{{$product->product_name}}</option>
                                     @endforeach
                                 </select>
 

@@ -1,6 +1,6 @@
 @extends('admin.layouts.layout')
 @section('title_admin')
-Category - Admin Panel
+    ConnectingNotes | Admin
 @endsection
 @section('admin_layout')
 <center><h1>Edit Category</h1></center>

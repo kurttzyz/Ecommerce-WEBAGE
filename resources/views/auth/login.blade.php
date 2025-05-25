@@ -1,6 +1,6 @@
 <x-guest-layout>
 @section('home_title')
-WebAge - Log In
+ConnectingNotes - Login
 @endsection
     <div class="min-h-screen flex flex-col md:flex-row bg-white">
         <!-- Left side - Graphic/Image -->
@@ -8,7 +8,7 @@ WebAge - Log In
             <div class="h-full flex items-center justify-center p-12">
                 <div class="text-white text-center">
                     <h1 class="text-4xl font-light mb-4">Welcome Back</h1>
-                    <p class="text-gray-300 max-w-md mx-auto">Explore amazing products on out platform!</p>
+                    <p class="text-gray-300 max-w-md mx-auto">Explore amazing music courses on our platform!</p>
                 </div>
             </div>
         </div>
@@ -38,7 +38,8 @@ WebAge - Log In
                             :value="old('email')" 
                             required 
                             autofocus 
-                            autocomplete="username" />
+                            autocomplete="username"
+                            placeholder="Enter your email address" />
                         <x-input-error :messages="$errors->get('email')" class="mt-2" />
                     </div>
 
@@ -51,7 +52,8 @@ WebAge - Log In
                             type="password"
                             name="password"
                             required 
-                            autocomplete="current-password" />
+                            autocomplete="current-password" 
+                            placeholder="Enter your password"/>
                         <x-input-error :messages="$errors->get('password')" class="mt-2" />
                     </div>
 
@@ -75,7 +77,7 @@ WebAge - Log In
 
                     <div>
                         <x-primary-button class="w-full justify-center bg-black hover:bg-gray-800 focus:bg-gray-800">
-                            {{ __('Log in') }}
+                            {{ __('Sign In') }}
                         </x-primary-button>
                     </div>
                 </form>

@@ -1,6 +1,6 @@
 @extends('admin.layouts.layout')
 @section('title_admin')
-Sub Category - Admin Panel
+    ConnectingNotes | Admin
 @endsection
 @section('admin_layout')
 <center><h1>Manage Sub Category</h1></center>
@@ -33,7 +33,7 @@ Sub Category - Admin Panel
                                         <td>{{$subcat->id}}</td>
                                         <td>{{$subcat->subcategory_name}}</td>
                                         <td>{{$subcat->category->category_name}}</td>
-                                        <td><a href="{{route('show.subcat', $subcat -> id)}}" class="btn btn-info">Edit</a>
+                                        <td><a href="{{route('show.subcat', $subcat->id)}}" class="btn btn-info">Edit</a>
                                             <form method="POST" action="{{route('delete.subcat', $subcat->id)}}">
                                                 @csrf
                                                 @method('DELETE')

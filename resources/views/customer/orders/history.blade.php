@@ -1,7 +1,7 @@
 @extends('customer.layouts.layout')
 
 @section('title_customer')
-WebAge - My Orders
+    ConnectingNotes
 @endsection
 
 @section('customer_layout')
@@ -72,7 +72,7 @@ WebAge - My Orders
         </p>
         </h3>
         <h3 class="text-white text-lg font-bold text-gray-800 dark:text-white">
-            Shipping Status: 
+            Membership Status: 
             <span class="order-status bg-black" data-status="{{$order->shipment_status}}">
               <span class="status-icon"></span>
               <span class="status-text">{{ $order->shipment_status }}</span>
@@ -87,7 +87,7 @@ WebAge - My Orders
           </h3>
   
           <h3 class="text-white bg-black text-lg font-bold text-gray-800 dark:text-white">
-              Sub Total: ₱ {{number_format($order->total_amount,2)}}
+              Sub Total: ₱ {{number_format($order->total_amount, 2)}}
           </h3>
       
           <div class="mt-2 w-full">
@@ -193,5 +193,23 @@ WebAge - My Orders
         });
     });
 </script>
+
+<style>
+    @keyframes fadeIn {
+        0% {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        100% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .animate-fade-in-up {
+        animation: fadeIn 1s ease-out forwards;
+    }
+</style>
 
 

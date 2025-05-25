@@ -1,38 +1,62 @@
 <?php
 namespace App\Http\Controllers\Sellers;
+use DB;
 use App\Models\Order;
 use App\Models\Store;
+use App\Models\Course;
 use App\Models\Product;
+use App\Models\Revenue;
 use App\Models\Category;
+use App\Models\MentorReview;
 use Illuminate\Http\Request;
+use App\Models\MentorSession;
 use App\Models\HomePageSetting;
-use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class SellerMainController extends Controller {
-    public function index (){
-        $homepagesetting = HomePageSetting::with([
-            'discountedProduct.images',
-            'featuredProduct1.images',
-            'featuredProduct2.images',
-        ])->first();
 
-        $products = Product::all();
-        return view('seller.dashboard', compact('homepagesetting', 'products'));
+
+    public function index()
+    {
+        $mentor = auth()->user();
+
+        // Total number of courses created by the mentor
+        $totalSessions = Course::where('mentor_id', $mentor->id)->count();
+
+        // Get all sessions under the mentor's courses
+        $sessionIds = MentorSession::whereHas('course', function ($query) use ($mentor) {
+            $query->where('mentor_id', $mentor->id);
+        })->pluck('id');
+
+        // Get unique student IDs enrolled in those sessions
+        $totalStudents = \DB::table('session_enrollments')
+            ->whereIn('session_id', $sessionIds)
+            ->distinct('student_id')
+            ->count('student_id');
+
+        return view('seller.dashboard', compact('totalSessions', 'totalStudents'));
     }
+
 
     public function search(Request $request){
         $query = $request->input('query');
-        // Search for products by name (case-insensitive search)
+ 
         $products = Product::where('product_name', 'LIKE', '%' . $query . '%')->get();
         return view('seller.search.product', compact('products', 'query'));
     }
 
     public function showstore($slug){
+        $user = Auth::user();
         $viewstores = Store::where('slug', $slug)->firstOrFail();
-        return view('seller.store.showstore', compact('viewstores'));
+        $courses = $viewstores->mentorCourses()->with('sessions')->get();
+        $sessions = MentorSession::all();
+        $reviews = MentorReview::where('store_id', $viewstores->id)->with('user')->latest()->get();
+        $enrolledSessionIds = $user->mentorSessions()->pluck('mentor_sessions.id')->toArray();
+        
+        return view('seller.store.showstore', compact('viewstores', 'courses', 'sessions', 'enrolledSessionIds', 'reviews'));
     }
 
     public function viewstore (){
@@ -98,24 +122,94 @@ class SellerMainController extends Controller {
         ]);
     }
 
-    public function sellerRevenue(){
+    public function sellerRevenue() {
         $seller = Auth::user(); 
-        $revenue = 0;
-
+        $grossRevenue = 0;
+    
         foreach ($seller->products as $product) {
             $productRevenue = $product->orderItems()
                 ->whereHas('order', function ($query) {
                     $query->where('payment_status', 'completed');
                 })
                 ->sum(DB::raw('quantity * price'));
-        
-            $revenue += $productRevenue;
-        
+    
+            $grossRevenue += $productRevenue;
         }
-        return view('seller.payments', compact('revenue'));
+    
+        $platformFee = $grossRevenue * 0.20;
+        $netRevenue = $grossRevenue - $platformFee;
+    
+        // Save into a revenue table (create this model and migration if not yet)
+        Revenue::updateOrCreate(
+            ['seller_id' => $seller->id],
+            [
+                'gross_revenue' => $grossRevenue,
+                'platform_fee' => $platformFee,
+                'net_revenue' => $netRevenue,
+            ]
+        );
+    
+        return view('seller.payments', compact('grossRevenue', 'platformFee', 'netRevenue'));
     }
+    
 
     public function history (){
         return view('seller.orders.history');
     }
+
+     public function submitReview(Request $request, $storeId)
+    {
+    $request->validate([
+        'rating' => 'required|integer|min:1|max:5',
+        'comment' => 'required|string|max:1000',
+    ]);
+
+    MentorReview::create([
+        'user_id' => auth()->id(),
+        'store_id' => $storeId,
+        'rating' => $request->rating,
+        'comment' => $request->comment,
+    ]);
+
+    return back()->with('success', 'Review submitted successfully!');
+    }
+
+
+    
+    public function upload(Request $request)
+    {
+        $request->validate([
+            'profile_photo' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+        ]);
+
+        if ($request->hasFile('profile_photo')) {
+            $path = $request->file('profile_photo')->store('profile_photos', 'public');
+
+            // Delete old photo if it exists
+            if (Auth::user()->profile_photo) {
+                Storage::disk('public')->delete(Auth::user()->profile_photo);
+            }
+
+            Auth::user()->update(['profile_photo' => $path]);
+
+            return response()->json([
+                'message' => 'Profile updated successfully.',
+                'image_url' => asset('storage/' . $path),
+            ]);
+        }
+
+        return response()->json(['message' => 'No file uploaded.'], 422);
+    }
+
+
+    public function contract(){
+        return view('seller.contract');
+    }
+
+
+
+    public function policy(){
+        return view('seller.policy');
+    }
+
 }

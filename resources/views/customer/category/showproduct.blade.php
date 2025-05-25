@@ -1,13 +1,13 @@
 @extends('customer.layouts.layout')
 
 @section('title_customer')
-WebAge
+ConnectingNotes
 @endsection
 
 @section('customer_layout')
 
 <center>
-    <h1 class="text-white text-2xl font-bold animate-fade-in-up">Explore Our All Products In {{ $category->category_name }} Category</h1>
+    <h1 class="text-white text-2xl font-bold animate-fade-in-up">Explore Our All Courses In {{ $category->category_name }} Category</h1>
 </center>
 <hr class="my-4 border-green-500 animate-fade-in-up">
 
@@ -22,9 +22,7 @@ WebAge
                 <h2 class="text-white text-sm font-medium truncate">
                     {{ $pro->product_name }}
                 </h2>
-                <div class="text-white font-bold text-sm mt-1">
-                    ₱ {{ number_format($pro->regular_price, 2) }}
-                </div>
+               
                 <a href="{{ route('category.view', ['product_name' => $pro->product_name]) }}"
                    class="mt-2 inline-block bg-white text-black hover:bg-green-500 hover:text-white text-xs px-3 py-1 rounded transition duration-300">
                     View Details
@@ -32,7 +30,7 @@ WebAge
             </div>
         </div>
     @empty
-        <p class="col-span-full text-gray-500 animate-fade-in-up">No products available.</p>
+        <p class="col-span-full text-gray-500 animate-fade-in-up">No courses available.</p>
     @endforelse
 </div>
 

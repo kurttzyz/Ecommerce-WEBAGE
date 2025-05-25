@@ -1,6 +1,6 @@
 @extends('admin.layouts.layout')
 @section('title_admin')
-Orders - Admin Panel
+    ConnectingNotes | Admin
 @endsection
 @section('admin_layout')
 <h1>Order History</h1>

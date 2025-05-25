@@ -1,7 +1,7 @@
 @extends('customer.layouts.layout')
 
 @section('title_customer')
-WebAge - Order Shipping and Payment
+    ConnectingNotes
 @endsection
 
 @section('customer_layout')
@@ -146,7 +146,7 @@ WebAge - Order Shipping and Payment
         <div class="mt-4">
             
                 <button type="submit" class="text-white bg-green-500 hover:bg-black text-white  text-black px-4 py-2 rounded-md">
-                    Confirm Shipping and Complete Payment
+                    Confirm Membership and Complete Payment
                 </button>
             
         </div>
@@ -199,3 +199,21 @@ WebAge - Order Shipping and Payment
     }
 </style>
 @endsection
+
+<style>
+    @keyframes fadeIn {
+        0% {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        100% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .animate-fade-in-up {
+        animation: fadeIn 1s ease-out forwards;
+    }
+</style>

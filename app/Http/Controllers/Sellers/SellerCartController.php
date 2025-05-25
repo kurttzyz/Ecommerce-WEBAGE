@@ -36,7 +36,7 @@ class SellerCartController extends Controller {
                 'quantity' => 1
             ]);
         }
-        return redirect()->back()->with('success', 'The Product Added To Cart Successfully!');
+        return redirect()->back()->with('success', 'The Course Added To Cart Successfully!');
     }
 
     public function remove($itemId){

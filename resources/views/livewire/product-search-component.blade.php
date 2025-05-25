@@ -4,7 +4,7 @@
             <input 
                 type="text" 
                 name="query" 
-                placeholder="Search Product...." 
+                placeholder="Search Courses...." 
                 required 
                 class="w-full px-2 py-2 text-lg text-black bg-white border-none rounded-l-lg focus:outline-none"
             />

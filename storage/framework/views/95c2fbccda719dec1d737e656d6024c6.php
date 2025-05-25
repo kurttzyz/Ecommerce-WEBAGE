@@ -1,0 +1,76 @@
+
+<?php $__env->startSection('title_admin', 'User Profile'); ?>
+
+<?php $__env->startSection('admin_layout'); ?>
+    <div class="mt-2">
+        <a href="<?php echo e(route('admin.users')); ?>"
+            class="px-2 py-2 bg-gray-600 text-white rounded hover:bg-gray-700">
+            ← Back to User List
+        </a>
+    </div>
+    <br>
+        <div class="max-w-4xl mx-auto p-4 bg-white dark:bg-neutral-900 rounded shadow">
+
+
+            <div class="flex flex-col items-center">
+                <img class="w-32 h-32 rounded-full object-cover mb-4 border-4 border-blue-500"
+                    src="<?php echo e(asset('storage/' . Auth::user()->profile_photo)); ?>" 
+                    alt="Profile Picture">
+
+                <h2 class="text-2xl font-semibold text-gray-800 dark:text-black"><?php echo e($users->full_name); ?></h2>
+                <p class="text-gray-500 dark:text-gray-600"><?php echo e($users->email); ?></p>
+                <p class="text-gray-500 dark:text-gray-600"><?php echo e($users->address); ?></p>
+                <p class="text-gray-500 dark:text-gray-600"><?php echo e($users->contact_number); ?></p>
+
+                <span
+                    class="mt-2 inline-block px-3 py-1 text-sm bg-blue-100 text-blue-800 rounded dark:bg-blue-900 dark:text-blue-200">
+                    <?php echo e($users->role == 0 ? 'Admin/Secretary' : ($users->role == 2 ? 'Student' : 'Mentor')); ?>
+
+                </span>
+            </div>
+
+
+
+
+
+            <?php if($users->role == 1 && $users->sellers->isNotEmpty()): ?>
+                <div class="mt-8">
+                    <center><h3 class="text-xl font-semibold text-gray-800 dark:text-black mb-4">Submitted Documents</h3></center>
+                    <ul class="list-disc list-inside space-y-2">
+                        <?php $__currentLoopData = $users->sellers; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $document): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                        <center>
+                            <li>
+                                <p>Curriculum Vitae:</p>
+                                <a href="<?php echo e(asset('storage/' . $document->business_certificate)); ?>" target="_blank"
+                                    class="text-blue-600 hover:underline">
+                                    <?php echo e($document->business_certificate ?? basename($document->business_certificate)); ?>
+
+                                </a>
+
+                                <p>Music Plan:</p>
+                                <a href="<?php echo e(asset('storage/' . $document->music_plan)); ?>" target="_blank"
+                                    class="text-blue-600 hover:underline">
+                                    <?php echo e($document->music_plan ?? basename($document->music_plan)); ?>
+
+                                </a>
+
+                                <p>Government ID:</p>
+                                <a href="<?php echo e(asset('storage/' . $document->government_id)); ?>" target="_blank" class="text-blue-600 hover:underline">
+                                    <?php echo e($document->government_id ?? basename($document->government_id)); ?>
+
+                                </a>
+                            </li>
+                        </center>
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                    </ul>
+                </div>
+            <?php elseif($users->role == 1): ?>
+                <div class="mt-8 text-gray-500 dark:text-gray-400">
+                    <p>This mentor has not submitted any documents yet.</p>
+                </div>
+            <?php endif; ?>
+
+
+        </div>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('admin.layouts.layout', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\music\resources\views/admin/manage/index.blade.php ENDPATH**/ ?>

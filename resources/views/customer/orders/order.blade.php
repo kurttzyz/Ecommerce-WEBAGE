@@ -1,11 +1,11 @@
 @extends('customer.layouts.layout')
 
 @section('title_customer')
-WebAge - My Orders
+ConnectingNotes
 @endsection
 
 @section('customer_layout')
-<center><h1 class="text-white">Your Orders</h1></center>
+<center><h1 class="text-white">Your Orders Registration</h1></center>
 <hr class="my-4 border-green-500 animate-fade-in-up">
 
 @foreach($orders as $order)
@@ -47,7 +47,7 @@ WebAge - My Orders
                     </p>
                 </h3>
                 <h3 class="text-white text-lg font-bold text-gray-800 dark:text-white">
-                    Shipping Status: 
+                    Membership Status: 
                     <span class="order-status bg-black" data-status="{{$order->shipment_status}}">
                       <span class="status-icon"></span>
                       <span class="status-text">{{ $order->shipment_status }}</span>
@@ -72,7 +72,7 @@ WebAge - My Orders
                         <button type="submit"
                             class="w-full flex items-center justify-center gap-2 px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg shadow-md transition duration-300">
                             <i class="fas fa-check-circle"></i>
-                            Confirm Your Order
+                            Confirm Your Registration
                         </button>
                     </form>
                 </div>
@@ -84,7 +84,7 @@ WebAge - My Orders
                         <button type="submit"
                             class="w-full flex items-center justify-center gap-2 px-4 py-2 bg-red-600 hover:bg-black-700 text-white font-semibold rounded-lg shadow-md transition duration-300">
                             <i class="fas fa-times-circle"></i>
-                            Cancel Your Order
+                            Cancel Your Order Registration
                         </button>
                     </form>
                 </div>
@@ -164,5 +164,23 @@ WebAge - My Orders
         });
     });
 </script>
+
+<style>
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fade-in-up {
+    animation: fadeIn 1s ease-out forwards;
+  }
+</style>
 
 

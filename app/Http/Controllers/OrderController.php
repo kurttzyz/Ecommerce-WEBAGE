@@ -3,7 +3,9 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Order;
 use Illuminate\Http\Request;
+use App\Mail\OrderPlacedMail;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class OrderController extends Controller {
@@ -79,6 +81,7 @@ class OrderController extends Controller {
                 'price' => $item->product->regular_price,
             ]);
         }
+        Mail::to($request->user()->email)->send(new OrderPlacedMail($order));
         $user->cartItems()->delete();
         return redirect()->back()->with('success', 'Product checked out successfully.');
     }
@@ -197,7 +200,7 @@ class OrderController extends Controller {
                 }
             }
         }
-        return redirect('customer/dashboard')->with('success', 'asdasd.');
+        return redirect('customer.orders.history')->with('success', 'asdasd.');
     }
     
     public function yourorder(Order $order){

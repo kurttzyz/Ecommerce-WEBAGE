@@ -1,7 +1,7 @@
 @extends('seller.layouts.layout')
 
 @section('title_seller')
-WebAge - Order Details
+    ConnectingNotes
 @endsection
 
 @section('seller_layout')
@@ -21,9 +21,27 @@ WebAge - Order Details
         <h3 class="mt-4 font-semibold">Payment Status</h3>
         <p>{{ $order->payment_status }}</p>
 
-        <h3 class="mt-4 font-semibold">Shipment Status</h3>
+        <h3 class="mt-4 font-semibold">Membership Status</h3>
         <p>{{ $order->shipment_status }}</p>
 
     </div>
 </div>
 @endsection
+
+<style>
+    @keyframes fadeIn {
+        0% {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        100% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .animate-fade-in-up {
+        animation: fadeIn 1s ease-out forwards;
+    }
+</style>

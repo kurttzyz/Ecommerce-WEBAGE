@@ -18,7 +18,11 @@
         "vite": "^6.0.11"
     },
     "dependencies": {
+        "@inertiajs/inertia": "^0.11.1",
+        "@inertiajs/inertia-vue3": "^0.6.0",
+        "@vitejs/plugin-vue": "^5.2.3",
         "preline": "^3.0.1",
-        "vanilla-calendar-pro": "^3.0.3"
+        "vanilla-calendar-pro": "^3.0.3",
+        "vue": "^3.5.13"
     }
 }

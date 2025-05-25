@@ -1,7 +1,7 @@
 @extends('seller.layouts.layout')
 
 @section('title_seller')
-WebAge
+    ConnectingNotes
 @endsection
 
 @section('seller_layout')
@@ -9,7 +9,7 @@ WebAge
     <h2 style="font-size: 24px; margin-bottom: 20px; color: #007bff;">Search Results for: "{{ $query }}"</h2>
     <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
     @if($products->isEmpty())
-        <p style="font-size: 18px; color: #666;">No products found.</p>
+        <p style="font-size: 18px; color: #666;">No courses found.</p>
     @else
     
         <ul style="list-style-type: none; padding: 0;">

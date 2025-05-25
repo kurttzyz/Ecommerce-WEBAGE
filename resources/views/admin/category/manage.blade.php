@@ -1,6 +1,6 @@
 @extends('admin.layouts.layout')
 @section('title_admin')
-Category - Admin Panel
+    ConnectingNotes | Admin
 @endsection
 @section('admin_layout')
 <center><h1>Manage Category</h1></center>
@@ -31,7 +31,7 @@ Category - Admin Panel
                                     <tr>
                                         <td>{{$cat->id}}</td>
                                         <td>{{$cat->category_name}}</td>
-                                        <td><a href="{{route('show.cat', $cat -> id)}}" class="btn btn-info">Edit</a>
+                                        <td><a href="{{route('show.cat', $cat->id)}}" class="btn btn-info">Edit</a>
                                             <form method="POST" action="{{route('delete.cat', $cat->id)}}">
                                                 @csrf
                                                 @method('DELETE')

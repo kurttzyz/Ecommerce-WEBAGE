@@ -1,6 +1,6 @@
 @extends('admin.layouts.layout')
 @section('title_admin')
-Discount - Admin Panel
+    ConnectingNotes | Admin
 @endsection
 @section('admin_layout')
 <center><h1>Home Page Setting</h1></center>

@@ -1,6 +1,6 @@
 @extends('admin.layouts.layout')
 @section('title_admin')
-Discount - Admin Panel
+    ConnectingNotes | Admin
 @endsection
 @section('admin_layout')
 <h1>Manage Discount</h1>

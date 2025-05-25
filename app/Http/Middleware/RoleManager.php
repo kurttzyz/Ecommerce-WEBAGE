@@ -34,6 +34,11 @@ class RoleManager {
                     return $next($request);
                 }
                 break;
+            case 'secretary':
+                if($authUserRole == 3){
+                    return $next($request);
+                }
+                break;
         }
 
         switch($authUserRole){
@@ -43,6 +48,8 @@ class RoleManager {
                 return redirect()->route('seller.dashboard');
             case 2:
                 return redirect()->route('customer.dashboard');
+            case 3:
+                return redirect()->route('admin');
         }
 
         return redirect()->route('login');

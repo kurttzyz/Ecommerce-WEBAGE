@@ -94,13 +94,13 @@ class SellerProductController extends Controller {
                 $firstImage = false;
             }
         }
-        return redirect()->back()->with('success', 'Product Updated Successfully!');
+        return redirect()->back()->with('success', 'Course Updated Successfully!');
     }
     
     public function deleteproduct($id){
         Product::findOrFail($id)->delete();
 
-        return redirect()->back()->with('success','Product Deleted Successfully!');
+        return redirect()->back()->with('success','Course Deleted Successfully!');
     }
 
     public function storeproduct(Request $request){
@@ -151,6 +151,6 @@ class SellerProductController extends Controller {
                 $firstImage = false;
             }
         }
-        return redirect()->back()->with('success', 'Product Added Successfully!');
+        return redirect()->back()->with('success', 'Course Added Successfully!');
     }
 }

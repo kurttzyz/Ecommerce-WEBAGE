@@ -1,10 +1,10 @@
 @extends('seller.layouts.layout')
 
 @section('title_seller')
-WebAge - My Cart
+    ConnectingNotes
 @endsection
 
-@section('seller_layout') 
+@section('seller_cart') 
 <center><h1 class="text-white animate-fade-in-up">My Cart</h1></center>
 <hr class="my-4 border-green-500 animate-fade-in-up">
   <!-- Back Button -->
@@ -46,12 +46,15 @@ WebAge - My Cart
     </script>
     @endif
 
+
+    
+
     <!-- Grid layout for cart items -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         @foreach($cart->items as $item)
         <div class="bg-black text-white shadow-lg p-4 rounded-lg flex flex-col items-start hover:bg-white hover:text-black hover:shadow-white hover:shadow-md transition-all duration-300 animate-fade-in-up">
             <h2 class="text-lg font-semibold text-center w-full text-white">{{ $item->product->product_name }}</h2>
-            <p class="text-center text-white-600 w-full">₱ {{number_format($item->product->regular_price,2) }} x {{ $item->quantity }}</p>
+            <p class="text-center text-white-600 w-full">₱ {{number_format($item->product->regular_price, 2) }} x {{ $item->quantity }}</p>
 
             <!-- Product Image -->
             <div class="w-full mt-3 flex justify-center">
@@ -64,7 +67,7 @@ WebAge - My Cart
             <!-- Quantity Buttons -->
             <div class="flex items-center mt-4 space-x-2 w-full">
                 <!-- Decrease -->
-                <form action="{{ route('seller.cart.decrease', $item->id) }}" method="POST" class="flex-1">
+                <form action="{{ route('seller.cart.decrease', $item->id) }}" method="POST" class="cart-decrease-form" data-id="{{ $item->id }}">
                     @csrf
                     <button type="submit" class="w-full text-black bg-gray-200 px-4 py-2 rounded-md font-medium hover:bg-gray-300">
                         <span class="font-semibold text-lg">-</span>
@@ -72,7 +75,7 @@ WebAge - My Cart
                 </form>
 
                 <!-- Increase -->
-                <form action="{{ route('seller.cart.increase', $item->id) }}" method="POST" class="flex-1">
+                <form action="{{ route('seller.cart.increase', $item->id) }}" method="POST" class="cart-increase-form" data-id="{{ $item->id }}">
                     @csrf
                     <button type="submit" class="w-full text-black bg-gray-200 px-4 py-2 rounded-md font-medium hover:bg-gray-300">
                         <span class="font-semibold text-lg">+</span>
@@ -96,10 +99,10 @@ WebAge - My Cart
     <div class="mt-10 bg-black shadow-lg rounded-lg p-6 max-w-md mx-auto text-white-800 animate-fade-in-up">
         <h2 class="text-white text-2xl font-bold mb-4 text-center">Order Summary</h2>
         @php
-            $totalItems = $cart->items->sum('quantity');
-            $subtotal = $cart->items->sum(function($item) {
-                return $item->product->regular_price * $item->quantity;
-            });
+$totalItems = $cart->items->sum('quantity');
+$subtotal = $cart->items->sum(function ($item) {
+    return $item->product->regular_price * $item->quantity;
+});
         @endphp
 
         <div class="flex justify-between mb-2">
@@ -110,10 +113,23 @@ WebAge - My Cart
             <span class="font-medium">Subtotal:</span>
             <span>₱ {{ number_format($subtotal, 2) }}</span>
         </div>
+
+        @php
+$taxRate = 0.02; // 12% example
+$taxAmount = $subtotal * $taxRate;
+$total = $subtotal + $taxAmount;
+        @endphp
+
+        <div class="flex justify-between mb-2">
+            <span class="font-medium">Tax(2%):</span>
+            <span>₱ 
+            {{ number_format($taxAmount, 2)}} </span>
+        </div>
+
         <div class="border-t border-gray-300 my-4"></div>
         <div class="flex justify-between text-xl font-bold">
             <span>Total:</span>
-            <span>₱ {{ number_format($subtotal, 2) }}</span>
+            <span>₱ {{ number_format($total, 2) }}</span>
         </div>
 
         <form action="{{ route('seller.orders.payment') }}" method="POST" class="mt-6">
@@ -129,7 +145,7 @@ WebAge - My Cart
 
 </div>
 @endsection
-
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <style>
 @keyframes fadeIn {
     0% {

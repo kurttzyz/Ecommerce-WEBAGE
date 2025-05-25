@@ -2,15 +2,18 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
 use App\Models\User;
-use Illuminate\Auth\Events\Registered;
-use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Mail\VerifyEmailCode;
+use Illuminate\Validation\Rules;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rules;
-use Illuminate\View\View;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Auth\Events\Registered;
 
 class RegisteredUserController extends Controller
 {
@@ -30,31 +33,34 @@ class RegisteredUserController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
-            'name' => ['required', 'string', 'max:255'],
+            'first_name' => ['required', 'string', 'max:255'],
+            'last_name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+            'address' => 'required|string|max:255',
+            'contact_number' => 'required|string|max:20',
+            'role' => ['required', 'in:1,2'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
+        $verificationCode = Str::random(6); // or use mt_rand(100000, 999999)
+
         $user = User::create([
-            'name' => $request->name,
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
             'email' => $request->email,
+            'address' => $request->address,
+            'contact_number' => $request->contact_number,
+            'role' => $request->role,    
             'password' => Hash::make($request->password),
+            'verification_code' => $verificationCode,
         ]);
 
+          // Send code via email
+        Mail::to($user->email)->send(new VerifyEmailCode($user));
+
         event(new Registered($user));
-
-        Auth::login($user);
-
-       // Role-based redirection based on user role
-       switch ($user->role) {
-        case 0: // Admin role
-            return redirect()->route('admin'); // Redirect to Admin dashboard
-        case 1: // Staff role
-            return redirect()->route('seller.dashboard'); // Redirect to Staff dashboard
-        case 2: // User role
-            return redirect()->route('customer.dashboard'); // Redirect to User dashboard
-        default:
-            return redirect()->route('/'); // Default fallback (could be a homepage)
-        }
+        session(['email' => $user->email]);
+        
+        return redirect()->route('verification.form')->with('email', $user->email);
     }
 }

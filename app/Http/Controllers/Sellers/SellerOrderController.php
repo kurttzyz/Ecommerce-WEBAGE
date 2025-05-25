@@ -42,16 +42,16 @@ class SellerOrderController extends Controller {
         $cartItems = $user->cartItems()->with('product')->get();
 
         if ($cartItems->isEmpty()) {
-            return redirect()->route('cart.index')->with('error', 'Your cart is empty.');
+            return redirect()->route('seller.cart.index')->with('error', 'Your cart is empty.');
         }
 
         foreach ($cartItems as $item) {
             if (!$item->product || is_null($item->product->regular_price)) {
-                return redirect()->route('cart.index')->with('error', 'A product is missing its price.');
+                return redirect()->route('seller.cart.index')->with('error', 'A product is missing its price.');
             }
 
             if ($item->product->stock_quantity < $item->quantity) {
-                return redirect()->route('cart.index')->with('error', "Sorry, not enough stock for {$item->product->product_name}.");
+                return redirect()->route('seller.cart.index')->with('error', "Sorry, not enough stock for {$item->product->product_name}.");
             }
         }
 
@@ -81,7 +81,7 @@ class SellerOrderController extends Controller {
             ]);
         }
         $user->cartItems()->delete();
-        return redirect()->back()->with('success', 'Product checked out successfully.');
+        return redirect()->back()->with('success', 'Course checked out successfully.');
     }
 
 
@@ -190,7 +190,7 @@ class SellerOrderController extends Controller {
                 }
             }
         }
-        return redirect('seller/dashboard')->with('success', 'asdasd.');
+        return redirect('seller.orders.pending')->with('success', 'asdasd.');
     }
     
     public function yourorder(Order $order){

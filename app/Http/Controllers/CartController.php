@@ -34,7 +34,7 @@ class CartController extends Controller {
                 'quantity' => 1
             ]);
         }
-        return redirect()->back()->with('success', 'The Product Added To Cart Successfully!');
+        return redirect()->back()->with('success', 'The Course Added To Cart Successfully!');
     }
 
     public function remove($itemId){
@@ -44,7 +44,7 @@ class CartController extends Controller {
 
             $item->delete();
         }
-        return redirect()->back()->with('success', 'Item removed from cart.');
+        return redirect()->back()->with('success', 'Courses removed from cart.');
     }
 
 
@@ -69,6 +69,8 @@ class CartController extends Controller {
     public function removeItem(CartItem $item){
         
         $item->delete();
-        return back()->with('success', 'Item removed from cart.');
+        return redirect()->back()->with('success', 'Courses Deleted Successfully!');
     }
+
+   
 }

@@ -28,7 +28,18 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
+
+        $user = Auth::user();
         $authUserRole = Auth::user()->role;
+
+        if ($authUserRole == 1 && !$user->is_approved) {
+            Auth::logout();  // Log out immediately
+            return redirect()->back()->withErrors([
+                'email' => 'Your account is not approved yet by the admin.',
+            ]);
+        }
+
+
         if($authUserRole == 0){
             return redirect()->intended(route('admin', absolute: false));
         }elseif ($authUserRole == 1){
